@@ -8,7 +8,7 @@ const Registration = () => {
         console.log("Received values:", values);
     };
     return (
-        <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100vh"}}>
+        <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100%"}}>
             <Form
                 name="registration"
                 initialValues={{remember: true}}
@@ -102,7 +102,7 @@ const Registration = () => {
                     </Select>
                 </Form.Item>
                 <Form.Item>
-                    <Button type="primary" htmlType="submit" style={{width: "100%", bottom:10}}>
+                    <Button type="primary" htmlType="submit" style={{width: "100%", bottom:10, top:10}}>
                         Зарегистрироваться
                     </Button>
                 </Form.Item>

@@ -1,0 +1,21 @@
+.upperRow {
+    font-family: 'Ubuntu Condensed', sans-serif;
+    margin: 50px;
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.paButton {
+    height: 50px;
+    width: 100px;
+    border-radius: 30px;
+    background-color: #61dafb;
+}
+.wrap {display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100vw;
+}
