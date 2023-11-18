@@ -6,7 +6,7 @@ const Auth = () => {
         console.log("Received values:", values);
     }
     return (
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center",  height: "100vh"}}>
             <Form
                 name="login"
                 initialValues={{ remember: true }}

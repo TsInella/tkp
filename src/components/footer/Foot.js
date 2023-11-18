@@ -6,8 +6,9 @@ const Foot = () => {
         <Layout
             style={{
             textAlign: 'center',
-            position:'absolute',
+            position:'relative',
             left: 0,
+            padding: 30,
             bottom: 0,
             width: '100%',
             height: '80px',

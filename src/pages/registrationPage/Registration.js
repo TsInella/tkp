@@ -8,7 +8,7 @@ const Registration = () => {
         console.log("Received values:", values);
     };
     return (
-        <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100%"}}>
+        <div style={{display: "flex", justifyContent: "center", height: "100vh"}}>
             <Form
                 name="registration"
                 initialValues={{remember: true}}

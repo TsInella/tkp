@@ -1,4 +1,4 @@
-import dataSource from "./users_db";
+import dataSource from "../../data/users_db";
 import style from './dataPage.module.css'
 import {SearchOutlined} from '@ant-design/icons';
 import React, {useRef, useState} from 'react';
@@ -192,7 +192,7 @@ const DataPage = () => {
                 <div className={style.upperRow}>
                     <h1>Информация о студентах</h1>
                 </div>
-                <Table columns={columns} dataSource={dataSource}/>
+                <Table className = {style.table} pagination={false} columns={columns} dataSource={dataSource}/>
             </div>
         </div>
     );
