@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Input, Button, Typography, Select} from "antd";
+import {Form, Input, Button, Typography, Select, DatePicker} from "antd";
 
 const {Title} = Typography;
 const {Option} = Select;
@@ -7,6 +7,10 @@ const Registration = () => {
     const onFinish = (values) => {
         console.log("Received values:", values);
     };
+    const onChange = (date, dateString) => {
+        console.log(date, dateString);
+    };
+
     return (
         <div style={{display: "flex", justifyContent: "center", height: "100vh"}}>
             <Form
@@ -41,7 +45,7 @@ const Registration = () => {
                     name="birthdate"
                     rules={[{required: true, message: "Пожалуйста, введите вашу дату рождения!"}]}
                 >
-                    <Input placeholder="Дата рождения"/>
+                    <DatePicker placeholder="Дата рождения" onChange={onChange} />
                 </Form.Item>
                 <Form.Item
                     name="email"
@@ -86,8 +90,8 @@ const Registration = () => {
                     rules={[{required: true, message: "Пожалуйста, выберите вид финансирования!"}]}
                 >
                     <Select placeholder="Вид финансирования">
-                        <Option value="budget">Бюджетная</Option>
-                        <Option value="paid">Платная</Option>
+                        <Option value="budget">Бюджетная форма</Option>
+                        <Option value="paid">Платная форма</Option>
                     </Select>
                 </Form.Item>
                 <Form.Item
