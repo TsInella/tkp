@@ -11,6 +11,7 @@ import Account from "./pages/account/Account";
 
 let currentUserID = 1;
 function App() {
+
     return (
         <BrowserRouter>
             <Head/>
