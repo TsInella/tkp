@@ -14,7 +14,7 @@ const generateJwt = (id, email) => {
 
 class StudentController {
     async registration(req, res, next) {
-        const {email, password} = req.body
+        const {key, username, surname, gender, birthdate, email, password, group, course, fundingType, studyForm, educationLevel} = req.body
         if (!email || !password) {
             return next(ApiError.badRequest(('Некорректный email или паролЬ')))
         }
@@ -23,7 +23,7 @@ class StudentController {
             return next(ApiError.badRequest(('Пользователь с таким email уже существует!')))
         }
         const hashPassword = await bcrypt.hash(password, 5)
-        const students = await Students.create({email, password: hashPassword})
+        const students = await Students.create({password: hashPassword, key, username, surname, gender, birthdate, email, group, course, fundingType, studyForm, educationLevel})
         const token = generateJwt(students.id, students.email)
         return res.json({token})
     }
