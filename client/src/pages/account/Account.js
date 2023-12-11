@@ -7,8 +7,8 @@ import dayjs from "dayjs";
 const {Option} = Select;
 
 
-const Account = ({currentUserID}) => {
-    const currentAccount = users_db.find(item => item.key === currentUserID);
+const Account = () => {
+    const currentAccount = users_db.find(item => item.key === 1);
     console.log(currentAccount)
     const onChange = (date, dateString) => {
         console.log(date, dateString);
