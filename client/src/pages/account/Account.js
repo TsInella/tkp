@@ -1,18 +1,29 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import users_db from '../../data/users_db'
 import {Button, DatePicker, Input, Select} from "antd";
 import style from './Account.module.css'
 import dayjs from "dayjs";
+import {Context} from "../../index";
+import {useNavigate} from "react-router-dom";
+import {MAIN_ROUTE} from "../../utils/consts";
 
 const {Option} = Select;
 
 
 const Account = () => {
-    const currentAccount = users_db.find(item => item.key === 1);
+    const currentAccount = users_db.find(item => item.key === 2);
+    const history = useNavigate()
     console.log(currentAccount)
     const onChange = (date, dateString) => {
         console.log(date, dateString);
     };
+    const {student} = useContext(Context)
+
+    const logOut = () => {
+        student.setStudent({})
+        student.setIsAuth(false)
+        history(MAIN_ROUTE)
+    }
 
     return (
         <div className={style.wrapper}>
@@ -77,7 +88,7 @@ const Account = () => {
 
 
                 <div className={style.button}>
-                    <Button type="primary" htmlType="submit" style={{background: "#dc4840", width: "150px"}}>
+                    <Button onClick={() => logOut()} type="primary" htmlType="submit" style={{background: "#dc4840", width: "150px"}}>
                         Выйти из аккаунта
                     </Button>
 

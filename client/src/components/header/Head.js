@@ -5,7 +5,6 @@ import {NavLink, useNavigate} from "react-router-dom";
 import {Context} from "../../index";
 import {ACCOUNT_ROUTE} from "../../utils/consts";
 
-const {Header, Content, Footer} = Layout;
 // import styles from './Head.css'
 const Head = () => {
     const {
@@ -16,25 +15,35 @@ const Head = () => {
     console.log(student.isAuth)
     return (
         <Layout className="layout">
-            <Menu
-                theme="light"
-                mode="horizontal"
-                style={{paddingLeft: 140, justifyContent: 'center'}}
-            >
-                <MenuItem style={{marginLeft: 20}}><NavLink to="/">Главная</NavLink></MenuItem>
-                <MenuItem style={{marginLeft: 20}}><NavLink to="/login">Вход</NavLink></MenuItem>
-                <MenuItem style={{marginLeft: 20}}><NavLink to="/registration">Регистрация</NavLink></MenuItem>
-                {student.isAuth &&
-                    <MenuItem style={{left: 500}}>
-                        <Button onClick={() => history(ACCOUNT_ROUTE)} type="primary" htmlType="submit"
+            {student.isAuth ?
+                <Menu
+                    theme="light"
+                    mode="horizontal"
+                    style={{justifyContent: 'center'}}
+                >
+                    <MenuItem><NavLink to="/">Главная</NavLink></MenuItem>
+                    <MenuItem style={{position: "absolute", right: 10}}>
+                        <NavLink to="/account">
+                        <Button type="primary" htmlType="submit"
                                 style={{width: "140px"}}>
                             Личный кабинет
                         </Button>
-                    </MenuItem>}
+                        </NavLink>
+                    </MenuItem>
+                </Menu>
+                :
+                <Menu
+                    theme="light"
+                    mode="horizontal"
+                    style={{justifyContent: 'center'}}
+                >
+                    <MenuItem><NavLink to="/">Главная</NavLink></MenuItem>
+                    <MenuItem style={{marginLeft: 20}}><NavLink to="/login">Вход</NavLink></MenuItem>
+                    <MenuItem style={{marginLeft: 20}}><NavLink to="/registration">Регистрация</NavLink></MenuItem>
 
-            </Menu>
-        </Layout>
-    );
-};
+                </Menu>}
+                </Layout>
+                );
+            };
 
 export default Head;

@@ -14,7 +14,6 @@ const Auth = observer(() => {
     const location = useLocation()
     const history = useNavigate()
     const isLogin = location.pathname === LOGIN_ROUTE;
-    console.log(isLogin)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [username, setUsername] = useState('')

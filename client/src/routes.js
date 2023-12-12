@@ -3,13 +3,13 @@ import Auth from './pages/auth/Auth'
 import Main from './pages/dataPage/dataPage'
 import {LOGIN_ROUTE, ACCOUNT_ROUTE, REGISTRATION_ROUTE, MAIN_ROUTE} from "./utils/consts";
 
-export const authRoutes = [
+
+export const publicRoutes = [
     {
         path:  ACCOUNT_ROUTE,
         Component: Account
     },
-]
-export const publicRoutes = [
+
     {
         path:  MAIN_ROUTE,
         Component: Main

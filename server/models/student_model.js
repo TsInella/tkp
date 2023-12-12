@@ -13,7 +13,7 @@ const Students = sequelize.define('students', {
     course: {type: DataTypes.STRING, allowNull: false},
     fundingType: {type: DataTypes.STRING, allowNull: false},
     studyForm: {type: DataTypes.STRING, allowNull: false},
-    educationLevel: {type: DataTypes.STRING,allowNull: false},
+    educationLevel: {type: DataTypes.STRING, allowNull: false},
 })
 
 
