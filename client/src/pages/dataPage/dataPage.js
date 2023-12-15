@@ -1,15 +1,26 @@
-import dataSource from "../../data/users_db";
 import style from './dataPage.module.css'
 import {SearchOutlined} from '@ant-design/icons';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Highlighter from 'react-highlight-words';
 import {Button, Input, Space, Table} from 'antd';
+import {fetchStudents, login} from "../../http/studentAPI";
 
 
 const DataPage = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
+    const [rows, setRows] = useState([]);
     const searchInput = useRef(null);
+
+    useEffect(() => {
+        const fetchAndSetStudents = async () => {
+            const { rows } = await fetchStudents();
+            setRows(rows);
+            console.log(rows);
+        };
+        fetchAndSetStudents();
+    }, []);
+
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
         setSearchText(selectedKeys[0]);
@@ -93,6 +104,7 @@ const DataPage = () => {
         ),
         onFilter: (value, record) =>
             record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+
         onFilterDropdownOpenChange: (visible) => {
             if (visible) {
                 setTimeout(() => searchInput.current?.select(), 100);
@@ -192,7 +204,7 @@ const DataPage = () => {
                 <div className={style.upperRow}>
                     <h1>Информация о студентах</h1>
                 </div>
-                <Table className = {style.table} pagination={false} columns={columns} dataSource={dataSource}/>
+                <Table className = {style.table} pagination={false} columns={columns} dataSource={rows}/>
             </div>
         </div>
     );

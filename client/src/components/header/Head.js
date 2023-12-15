@@ -3,7 +3,6 @@ import {Button, Layout, Menu, theme} from 'antd';
 import MenuItem from "antd/es/menu/MenuItem";
 import {NavLink, useNavigate} from "react-router-dom";
 import {Context} from "../../index";
-import {ACCOUNT_ROUTE} from "../../utils/consts";
 
 // import styles from './Head.css'
 const Head = () => {

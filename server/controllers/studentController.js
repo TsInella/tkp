@@ -42,7 +42,7 @@ class StudentController {
         return res.json({token})
     }
 
-    async check(req, res, next) {
+    async check(req, res) {
         const token = generateJwt(req.students.id, req.students.email)
         return res.json({token})
     }

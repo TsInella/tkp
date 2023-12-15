@@ -1,11 +1,11 @@
 import React, {useContext, useState} from 'react';
 import {Button, DatePicker, Form, Input, Select, Typography} from "antd";
 import {useLocation, useNavigate} from "react-router-dom";
-import {LOGIN_ROUTE, MAIN_ROUTE} from "../../utils/consts";
 import {observer} from "mobx-react-lite";
 import {login, registration} from "../../http/studentAPI";
 import {Context} from "../../index";
-
+import dayjs from "dayjs";
+dayjs('2019-01-25').format('DD/MM/YYYY')
 const {Title} = Typography;
 const {Option} = Select;
 
@@ -13,7 +13,7 @@ const Auth = observer(() => {
     const {student} = useContext(Context)
     const location = useLocation()
     const history = useNavigate()
-    const isLogin = location.pathname === LOGIN_ROUTE;
+    const isLogin = location.pathname === '/login';
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [username, setUsername] = useState('')
@@ -28,24 +28,20 @@ const Auth = observer(() => {
 
     const click = async () => {
         try {
-            let data;
             if (isLogin) {
-                data = await login(email, password);
+                await login(email, password);
             } else {
-                data = await registration(username, surname, gender, birthdate, email, password, group, course, fundingType, studyForm, educationLevel);
+                await registration(username, surname, gender, birthdate, email, password, group, course, fundingType, studyForm, educationLevel);
             }
             student.setStudent(student)
             student.setIsAuth(true)
-            history(MAIN_ROUTE)
+            history('/')
         } catch (e) {
             alert(e.response.data.message)
         }
     }
     const onFinish = (values) => {
         console.log("Received values:", values);
-    }
-    const onChange = (date, dateString) => {
-        console.log(date, dateString);
     };
     return (
         <div>
@@ -121,7 +117,7 @@ const Auth = observer(() => {
 
                                 rules={[{required: true, message: "Пожалуйста, введите вашу дату рождения!"}]}
                             >
-                                <DatePicker onChange={value => setBirthdate(value)} placeholder="Дата рождения"/>
+                                <DatePicker onChange={value => setBirthdate(value.format('DD/MM/YYYY'))} placeholder="Дата рождения"/>
                             </Form.Item>
                             <Form.Item
                                 name="email"
@@ -165,8 +161,8 @@ const Auth = observer(() => {
                                 rules={[{required: true, message: "Пожалуйста, выберите форму обучения!"}]}
                             >
                                 <Select placeholder="Форма обучения" onChange={value => setStudyForm(value)}>
-                                    <Option value="fullTime">Очная</Option>
-                                    <Option value="partTime">Заочная</Option>
+                                    <Option value="Очная">Очная</Option>
+                                    <Option value="Заочная">Заочная</Option>
                                 </Select>
                             </Form.Item>
                             <Form.Item
@@ -174,8 +170,8 @@ const Auth = observer(() => {
                                 rules={[{required: true, message: "Пожалуйста, выберите вид финансирования!"}]}
                             >
                                 <Select placeholder="Вид финансирования" onChange={value => setFundingType(value)}>
-                                    <Option value="budget">Бюджетная форма</Option>
-                                    <Option value="paid">Платная форма</Option>
+                                    <Option value="Бюджетная форма">Бюджетная форма</Option>
+                                    <Option value="Платная форма">Платная форма</Option>
                                 </Select>
                             </Form.Item>
                             <Form.Item
@@ -183,10 +179,10 @@ const Auth = observer(() => {
                                 rules={[{required: true, message: "Пожалуйста, выберите уровень образования!"}]}
                             >
                                 <Select placeholder="Уровень образования" onChange={value => setEducationLevel(value)}>
-                                    <Option value="bachelor">Бакалавриат</Option>
-                                    <Option value="master">Магистратура</Option>
-                                    <Option value="phd">Аспирантура</Option>
-                                    <Option value="specialist">Специалитет</Option>
+                                    <Option value="Бакалавриат">Бакалавриат</Option>
+                                    <Option value="Магистратура">Магистратура</Option>
+                                    <Option value="Аспирантура">Аспирантура</Option>
+                                    <Option value="Специалитет">Специалитет</Option>
                                 </Select>
                             </Form.Item>
                             <Form.Item>

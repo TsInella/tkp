@@ -1,25 +1,22 @@
 import Account from './pages/account/Account'
 import Auth from './pages/auth/Auth'
 import Main from './pages/dataPage/dataPage'
-import {LOGIN_ROUTE, ACCOUNT_ROUTE, REGISTRATION_ROUTE, MAIN_ROUTE} from "./utils/consts";
-
 
 export const publicRoutes = [
     {
-        path:  ACCOUNT_ROUTE,
+        path:  '/account',
         Component: Account
     },
-
     {
-        path:  MAIN_ROUTE,
+        path:  '/',
         Component: Main
     },
     {
-        path:  LOGIN_ROUTE,
+        path:  '/login',
         Component: Auth
     },
     {
-        path:  REGISTRATION_ROUTE,
+        path:  '/registration',
         Component: Auth
     },
 ]

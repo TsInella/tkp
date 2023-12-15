@@ -5,7 +5,6 @@ import style from './Account.module.css'
 import dayjs from "dayjs";
 import {Context} from "../../index";
 import {useNavigate} from "react-router-dom";
-import {MAIN_ROUTE} from "../../utils/consts";
 
 const {Option} = Select;
 
@@ -22,7 +21,7 @@ const Account = () => {
     const logOut = () => {
         student.setStudent({})
         student.setIsAuth(false)
-        history(MAIN_ROUTE)
+        history('/')
     }
 
     return (
