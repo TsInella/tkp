@@ -46,6 +46,11 @@ class StudentController {
         const token = generateJwt(req.students.id, req.students.email)
         return res.json({token})
     }
+
+    async getAll(req, res) {
+        const students = await Students.findAll()
+        return res.json(students)
+    }
 }
 
 module.exports = new StudentController()

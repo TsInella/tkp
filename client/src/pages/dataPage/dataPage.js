@@ -5,18 +5,18 @@ import Highlighter from 'react-highlight-words';
 import {Button, Input, Space, Table} from 'antd';
 import {fetchStudents, login} from "../../http/studentAPI";
 
-
 const DataPage = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
-    const [rows, setRows] = useState([]);
     const searchInput = useRef(null);
 
+    const [rows, setRows] = useState([]);
     useEffect(() => {
         const fetchAndSetStudents = async () => {
-            const { rows } = await fetchStudents();
+            const response = await fetchStudents();
+            console.log(response); // Check the actual structure of the response.
+            const rows = response;
             setRows(rows);
-            console.log(rows);
         };
         fetchAndSetStudents();
     }, []);

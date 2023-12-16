@@ -20,7 +20,7 @@ export const check = async () => {
 
 export const fetchStudents = async () => {
     const {data} = await $host.get('api/student')
+    console.log(data)
     return (data)
 }
-
 
