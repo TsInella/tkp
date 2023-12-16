@@ -3,10 +3,14 @@ import {makeAutoObservable} from "mobx";
 export default class StudentList {
     constructor() {
         this._isAuth = false
+        this._email = ""
         this._student = {}
         makeAutoObservable(this)
     }
 
+    setEmail(email) {
+        this._email = email
+    }
     setIsAuth(bool) {
         this._isAuth = bool
     }
@@ -14,6 +18,9 @@ export default class StudentList {
         this._student = student
     }
 
+    get Email() {
+        return this._email
+    }
     get isAuth() {
         return this._isAuth
     }

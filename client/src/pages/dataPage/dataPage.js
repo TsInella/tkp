@@ -3,7 +3,7 @@ import {SearchOutlined} from '@ant-design/icons';
 import React, {useEffect, useRef, useState} from 'react';
 import Highlighter from 'react-highlight-words';
 import {Button, Input, Space, Table} from 'antd';
-import {fetchStudents, login} from "../../http/studentAPI";
+import {fetchStudents} from "../../http/studentAPI";
 
 const DataPage = () => {
     const [searchText, setSearchText] = useState('');
@@ -14,7 +14,7 @@ const DataPage = () => {
     useEffect(() => {
         const fetchAndSetStudents = async () => {
             const response = await fetchStudents();
-            console.log(response); // Check the actual structure of the response.
+            console.log(response);
             const rows = response;
             setRows(rows);
         };

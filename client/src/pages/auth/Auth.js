@@ -33,6 +33,7 @@ const Auth = observer(() => {
             } else {
                 await registration(username, surname, gender, birthdate, email, password, group, course, fundingType, studyForm, educationLevel);
             }
+            student.setEmail(email)
             student.setStudent(student)
             student.setIsAuth(true)
             history('/')

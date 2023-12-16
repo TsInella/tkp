@@ -51,6 +51,12 @@ class StudentController {
         const students = await Students.findAll()
         return res.json(students)
     }
+
+    async getOne(req, res) {
+        const{email} = req.params
+        const students = await Students.findOne({where: {email}})
+        return res.json(students)
+    }
 }
 
 module.exports = new StudentController()

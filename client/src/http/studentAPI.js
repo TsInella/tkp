@@ -24,3 +24,10 @@ export const fetchStudents = async () => {
     return (data)
 }
 
+export const fetchOneStudent = async (email) => {
+    const {data} = await $host.get('api/student/'+email)
+    console.log(data)
+    return (data)
+}
+
+

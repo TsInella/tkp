@@ -1,22 +1,33 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import users_db from '../../data/users_db'
 import {Button, DatePicker, Input, Select} from "antd";
 import style from './Account.module.css'
 import dayjs from "dayjs";
 import {Context} from "../../index";
 import {useNavigate} from "react-router-dom";
+import {fetchOneStudent, fetchStudents} from "../../http/studentAPI";
 
 const {Option} = Select;
 
 
 const Account = () => {
-    const currentAccount = users_db.find(item => item.key === 2);
     const history = useNavigate()
-    console.log(currentAccount)
     const onChange = (date, dateString) => {
         console.log(date, dateString);
     };
+
     const {student} = useContext(Context)
+    const email = student.Email;
+    const [rows, setRows] = useState([]);
+    useEffect(() => {
+        const fetchAndSetStudents = async () => {
+            const response = await fetchOneStudent(email);
+            console.log(response);
+            const rows = response;
+            setRows(rows);
+        };
+        fetchAndSetStudents();
+    }, []);
 
     const logOut = () => {
         student.setStudent({})
@@ -24,51 +35,49 @@ const Account = () => {
         history('/')
     }
 
+    console.log(rows.birthdate)
+    if (!rows) {
+        return <div>Loading...</div>; // Или другой способ показать индикатор загрузки
+    }
+
     return (
         <div className={style.wrapper}>
+            {rows.username &&
             <div className={style.card}>
                 <div
-                    className={style.title}>{currentAccount.username} {' '} {currentAccount.surname}
+                    className={style.title}>{rows.username} {' '} {rows.surname}
                 </div>
                 
 
                 <div className={style.field}> Пол:
-                    <Select style={{width: 250}} defaultValue={currentAccount.gender} placeholder="Пол">
+                    <Select style={{width: 250}} defaultValue={rows.gender} placeholder="Пол">
                         <Option value="male">Мужской</Option>
                         <Option value="female">Женский</Option>
                     </Select>
                 </div>
 
                 <div className={style.field}> Дата рождения:
-                    <DatePicker style={{width: 250}} defaultValue={dayjs(currentAccount.birthdate, 'YYYY-DD-MM')}
+                    <DatePicker style={{width: 250}} defaultValue={dayjs(rows.birthdate, 'DD-MM-YYYY')}
                                 onChange={onChange}/>
                 </div>
 
-                <div className={style.field}> Email:
-                    <Input style={{width: 250}} defaultValue={currentAccount.email}/>
-                </div>
-
-                <div className={style.field}> Пароль:
-                    <Input.Password style={{width: 250}} defaultValue={currentAccount.password} placeholder="Пароль"/>
-                </div>
-
                 <div className={style.field}> Номер группы:
-                    <Input style={{width: 250}} defaultValue={currentAccount.group}/>
+                    <Input style={{width: 250}} defaultValue={rows.group}/>
                 </div>
 
                 <div className={style.field}> Курс:
-                    <Input style={{width: 250}} defaultValue={currentAccount.course}/>
+                    <Input style={{width: 250}} defaultValue={rows.course}/>
                 </div>
 
                 <div className={style.field}> Форма обучения:
-                    <Select style={{width: 250}} defaultValue={currentAccount.studyForm} placeholder="Форма обучения">
+                    <Select style={{width: 250}} defaultValue={rows.studyForm} placeholder="Форма обучения">
                         <Option value="fullTime">Очная</Option>
                         <Option value="partTime">Заочная</Option>
                     </Select>
                 </div>
 
                 <div className={style.field}> Вид финансирования:
-                    <Select style={{width: 250}} defaultValue={currentAccount.fundingType}
+                    <Select style={{width: 250}} defaultValue={rows.fundingType}
                             placeholder="Вид финансирования">
                         <Option value="budget">Бюджетная форма</Option>
                         <Option value="paid">Платная форма</Option>
@@ -76,7 +85,7 @@ const Account = () => {
                 </div>
 
                 <div className={style.field}> Уровень образования:
-                    <Select style={{width: 250}} defaultValue={currentAccount.educationLevel}
+                    <Select style={{width: 250}} defaultValue={rows.educationLevel}
                             placeholder="Уровень образования">
                         <Option value="bachelor">Бакалавриат</Option>
                         <Option value="master">Магистратура</Option>
@@ -96,9 +105,11 @@ const Account = () => {
                     </Button>
                 </div>
             </div>
+            }
 
         </div>
     );
+
 };
 
 export default Account;
