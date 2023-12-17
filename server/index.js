@@ -19,6 +19,10 @@ app.use(errorHandler);
 
 const start = async () => {
     try{
+        console.log(process.env.DB_NAME)
+        console.log(process.env.DB_USER)
+        console.log(process.env.DB_PASSWORD)
+
         await sequelize.authenticate()
         await sequelize.sync()
         app.listen(PORT, () => console.log('server started on port', PORT))
