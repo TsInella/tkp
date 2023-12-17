@@ -13,9 +13,7 @@ const DataPage = () => {
     const [rows, setRows] = useState([]);
     useEffect(() => {
         const fetchAndSetStudents = async () => {
-            const response = await fetchStudents();
-            console.log(response);
-            const rows = response;
+            const rows = await fetchStudents();
             setRows(rows);
         };
         fetchAndSetStudents();

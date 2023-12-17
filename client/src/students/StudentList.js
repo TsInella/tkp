@@ -18,7 +18,7 @@ export default class StudentList {
         this._student = student
     }
 
-    get Email() {
+    get email() {
         return this._email
     }
     get isAuth() {

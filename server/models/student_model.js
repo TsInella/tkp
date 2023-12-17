@@ -16,7 +16,6 @@ const Students = sequelize.define('students', {
     educationLevel: {type: DataTypes.STRING, allowNull: false},
 })
 
-
 module.exports = {
     Students
 }

@@ -7,5 +7,3 @@ router.use('/student', studentsRouter)
 
 
 module.exports = router
-
-

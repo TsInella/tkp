@@ -12,22 +12,15 @@ const {Option} = Select;
 
 const Account = () => {
     const history = useNavigate()
-    const onChange = (date, dateString) => {
-        console.log(date, dateString);
-    };
 
     const {student} = useContext(Context)
-    const email = student.Email;
+    const email = student.email;
     const [rows, setRows] = useState([]);
-    useEffect(() => {
-        const fetchAndSetStudents = async () => {
-            const response = await fetchOneStudent(email);
-            console.log(response);
-            const rows = response;
-            setRows(rows);
-        };
-        fetchAndSetStudents();
-    }, []);
+    const fetchAndSetStudents = async () => {
+        const rows = await fetchOneStudent(email);
+        setRows(rows);
+    };
+    fetchAndSetStudents();
 
     const logOut = () => {
         student.setStudent({})
@@ -36,9 +29,6 @@ const Account = () => {
     }
 
     console.log(rows.birthdate)
-    if (!rows) {
-        return <div>Loading...</div>; // Или другой способ показать индикатор загрузки
-    }
 
     return (
         <div className={style.wrapper}>
@@ -47,7 +37,6 @@ const Account = () => {
                 <div
                     className={style.title}>{rows.username} {' '} {rows.surname}
                 </div>
-                
 
                 <div className={style.field}> Пол:
                     <Select style={{width: 250}} defaultValue={rows.gender} placeholder="Пол">
@@ -57,8 +46,7 @@ const Account = () => {
                 </div>
 
                 <div className={style.field}> Дата рождения:
-                    <DatePicker style={{width: 250}} defaultValue={dayjs(rows.birthdate, 'DD-MM-YYYY')}
-                                onChange={onChange}/>
+                    <DatePicker style={{width: 250}} defaultValue={dayjs(rows.birthdate, 'DD-MM-YYYY')}/>
                 </div>
 
                 <div className={style.field}> Номер группы:

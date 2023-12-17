@@ -5,6 +5,7 @@ import {observer} from "mobx-react-lite";
 import {login, registration} from "../../http/studentAPI";
 import {Context} from "../../index";
 import dayjs from "dayjs";
+
 dayjs('2019-01-25').format('DD/MM/YYYY')
 const {Title} = Typography;
 const {Option} = Select;
@@ -118,7 +119,8 @@ const Auth = observer(() => {
 
                                 rules={[{required: true, message: "Пожалуйста, введите вашу дату рождения!"}]}
                             >
-                                <DatePicker onChange={value => setBirthdate(value.format('DD/MM/YYYY'))} placeholder="Дата рождения"/>
+                                <DatePicker onChange={value => setBirthdate(value.format('DD/MM/YYYY'))}
+                                            placeholder="Дата рождения"/>
                             </Form.Item>
                             <Form.Item
                                 name="email"
