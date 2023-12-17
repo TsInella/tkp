@@ -57,6 +57,27 @@ class StudentController {
         const students = await Students.findOne({where: {email}})
         return res.json(students)
     }
+
+
+    async updateOne(req, res, next) {
+        const { email } = req.params;
+        const {newGender, newBirthdate, newGroup, newCourse, newFundingType, newStudyForm, newEducationLevel} = req.body
+
+        const student = await Students.findOne({where: {email}})
+        if (!student) {
+            return next(ApiError.badRequest(('Пользователя не существует!')))
+        }
+        student.gender = newGender
+        student.birthdate = newBirthdate
+        student.group = newGroup
+        student.course = newCourse
+        student.fundingType = newFundingType
+        student.studyForm = newStudyForm
+        student.educationLevel = newEducationLevel
+        await student.save();
+        return res.json({ message: 'Данные успешно обновлены!' })
+    }
+
 }
 
 module.exports = new StudentController()

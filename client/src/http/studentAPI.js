@@ -1,4 +1,4 @@
-import {$authHost, $host} from "./index";
+import {$host} from "./index";
 import { jwtDecode } from "jwt-decode";
 export const registration = async (username, surname, gender, birthdate, email, password, group, course, fundingType, studyForm, educationLevel) => {
     const {data} = await $host.post('api/student/registration', {username, surname, gender, birthdate, email, password, group, course, fundingType, studyForm, educationLevel})
@@ -20,8 +20,14 @@ export const fetchStudents = async () => {
 
 export const fetchOneStudent = async (email) => {
     const {data} = await $host.get('api/student/'+email)
-    console.log(data)
+    console.log("fetchOneStudent")
     return (data)
 }
 
+export const updateOneStudent = async (email, newGender, newBirthdate, newGroup, newCourse, newFundingType, newStudyForm, newEducationLevel) => {
+    console.log("updateOneStudent")
+    const {data} = await $host.put('api/student/'+email, {newGender, newBirthdate, newGroup, newCourse, newFundingType, newStudyForm, newEducationLevel})
+
+    return (data)
+}
 

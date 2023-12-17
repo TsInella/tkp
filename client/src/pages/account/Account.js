@@ -5,28 +5,58 @@ import style from './Account.module.css'
 import dayjs from "dayjs";
 import {Context} from "../../index";
 import {useNavigate} from "react-router-dom";
-import {fetchOneStudent, fetchStudents} from "../../http/studentAPI";
+import {fetchOneStudent, fetchStudents, updateOneStudent} from "../../http/studentAPI";
 
 const {Option} = Select;
 
 
 const Account = () => {
     const history = useNavigate()
-
+    const [newGender, setNewGender] = useState('')
+    const [newBirthdate, setNewBirthdate] = useState('')
+    const [newGroup, setNewGroup] = useState('')
+    const [newCourse, setNewCourse] = useState('')
+    const [newFundingType, setNewFundingType] = useState('')
+    const [newStudyForm, setNewStudyForm] = useState('')
+    const [newEducationLevel, setNewEducationLevel] = useState('')
     const {student} = useContext(Context)
     const email = student.email;
     const [rows, setRows] = useState([]);
-    const fetchAndSetStudents = async () => {
-        const rows = await fetchOneStudent(email);
-        setRows(rows);
-    };
-    fetchAndSetStudents();
+
+    useEffect(() => {
+        const fetchAndSetStudents = async () => {
+            const rows = await fetchOneStudent(email);
+            setRows(rows);
+        };
+        fetchAndSetStudents();
+    }, []);
+
+
+    useEffect(() => {
+        if (rows) {
+            setNewGender(rows.gender);
+            setNewBirthdate(rows.birthdate);
+            setNewGroup(rows.group);
+            setNewCourse(rows.course);
+            setNewFundingType(rows.fundingType);
+            setNewStudyForm(rows.studyForm);
+            setNewEducationLevel(rows.educationLevel);
+        }
+    }, [rows]);
+
+    console.log(newGroup)
+
+    const Save = async () => {
+        await updateOneStudent(email, newGender, newBirthdate, newGroup, newCourse, newFundingType, newStudyForm, newEducationLevel)
+        alert("Успешно сохранено!");
+    }
 
     const logOut = () => {
         student.setStudent({})
         student.setIsAuth(false)
         history('/')
     }
+
 
     console.log(rows.birthdate)
 
@@ -39,46 +69,46 @@ const Account = () => {
                 </div>
 
                 <div className={style.field}> Пол:
-                    <Select style={{width: 250}} defaultValue={rows.gender} placeholder="Пол">
-                        <Option value="male">Мужской</Option>
-                        <Option value="female">Женский</Option>
+                    <Select onChange={value => setNewGender(value)} style={{width: 250}} defaultValue={rows.gender} placeholder="Пол">
+                        <Option value="Мужской">Мужской</Option>
+                        <Option value="Женский">Женский</Option>
                     </Select>
                 </div>
 
                 <div className={style.field}> Дата рождения:
-                    <DatePicker style={{width: 250}} defaultValue={dayjs(rows.birthdate, 'DD-MM-YYYY')}/>
+                    <DatePicker onChange={e => setNewBirthdate(e.target.value)} style={{width: 250}} defaultValue={dayjs(rows.birthdate, 'DD-MM-YYYY')}/>
                 </div>
 
                 <div className={style.field}> Номер группы:
-                    <Input style={{width: 250}} defaultValue={rows.group}/>
+                    <Input onChange={e => setNewGroup(e.target.value)} style={{width: 250}} defaultValue={rows.group}/>
                 </div>
 
                 <div className={style.field}> Курс:
-                    <Input style={{width: 250}} defaultValue={rows.course}/>
+                    <Input onChange={e => setNewCourse(e.target.value)} style={{width: 250}} defaultValue={rows.course}/>
                 </div>
 
                 <div className={style.field}> Форма обучения:
-                    <Select style={{width: 250}} defaultValue={rows.studyForm} placeholder="Форма обучения">
-                        <Option value="fullTime">Очная</Option>
-                        <Option value="partTime">Заочная</Option>
+                    <Select onChange={value => setNewStudyForm(value)} style={{width: 250}} defaultValue={rows.studyForm} placeholder="Форма обучения">
+                        <Option value="Очная">Очная</Option>
+                        <Option value="Заочная">Заочная</Option>
                     </Select>
                 </div>
 
                 <div className={style.field}> Вид финансирования:
-                    <Select style={{width: 250}} defaultValue={rows.fundingType}
+                    <Select onChange={value => setNewFundingType(value)} style={{width: 250}} defaultValue={rows.fundingType}
                             placeholder="Вид финансирования">
-                        <Option value="budget">Бюджетная форма</Option>
-                        <Option value="paid">Платная форма</Option>
+                        <Option value="Бюджетная форма">Бюджетная форма</Option>
+                        <Option value="Платная форма">Платная форма</Option>
                     </Select>
                 </div>
 
                 <div className={style.field}> Уровень образования:
-                    <Select style={{width: 250}} defaultValue={rows.educationLevel}
+                    <Select onChange={value => setNewEducationLevel(value)} style={{width: 250}} defaultValue={rows.educationLevel}
                             placeholder="Уровень образования">
-                        <Option value="bachelor">Бакалавриат</Option>
-                        <Option value="master">Магистратура</Option>
-                        <Option value="phd">Аспирантура</Option>
-                        <Option value="specialist">Специалитет</Option>
+                        <Option value="Бакалавриат">Бакалавриат</Option>
+                        <Option value="Магистратура">Магистратура</Option>
+                        <Option value="Аспирантура">Аспирантура</Option>
+                        <Option value="Специалитет">Специалитет</Option>
                     </Select>
                 </div>
 
@@ -88,7 +118,7 @@ const Account = () => {
                         Выйти из аккаунта
                     </Button>
 
-                    <Button type="primary" htmlType="submit" style={{width: "180px"}}>
+                    <Button onClick={Save} type="primary" htmlType="submit" style={{width: "180px"}}>
                         Сохранить изменения
                     </Button>
                 </div>
