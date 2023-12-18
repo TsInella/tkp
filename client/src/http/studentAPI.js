@@ -30,4 +30,42 @@ export const updateOneStudent = async (email, newGender, newBirthdate, newGroup,
 
     return (data)
 }
+//group
+export const createGroup = async (number, tutorName, studentsNumber, courseNumber, facultyName ) => {
+    const {data} = await $host.post('api/group', {number, tutorName, studentsNumber, courseNumber, facultyName})
+    return data
+}
+export const fetchGroup = async () => {
+    const {data} = await $host.get('api/group')
+    return data
+}
 
+//faculty
+export const createFaculty = async (name, studentsNumber, dean) => {
+    const {data} = await $host.post('api/faculty', {name, studentsNumber, dean})
+    return data
+}
+export const fetchFaculty = async () => {
+    const {data} = await $host.get('api/faculty')
+    return data
+}
+
+//academicPerformance
+export const createAcademicPerformance = async (classesNumber, averageMark) => {
+    const {data} = await $host.post('api/academicPerformance', {classesNumber, averageMark})
+    return data
+}
+export const fetchAcademicPerformance = async () => {
+    const {data} = await $host.get('api/academicPerformance')
+    return data
+}
+
+//course
+export const createCourse = async (number) => {
+    const {data} = await $host.post('api/course', {number})
+    return data
+}
+export const fetchCourse = async () => {
+    const {data} = await $host.get('api/course')
+    return data
+}

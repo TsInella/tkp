@@ -32,7 +32,7 @@ const Auth = observer(() => {
             if (isLogin) {
                 await login(email, password);
             } else {
-                await registration(username, surname, gender, birthdate, email, password, group, course, fundingType, studyForm, educationLevel);
+                await registration(username, surname, gender, birthdate, email, password, group, courseNumber, FacultyName, AcademicPerformanceID, fundingType, studyForm, educationLevel);
             }
             student.setEmail(email)
             student.setStudent(student)
