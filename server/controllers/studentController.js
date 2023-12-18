@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 const ApiError = require ('../error/ApiError')
 const jwt = require('jsonwebtoken')
-const {Students} = require('../models/student_model')
+const {Student} = require('../models/student_model')
 const {DataTypes} = require("sequelize");
 
 const generateJwt = (id, email) => {
@@ -14,31 +14,34 @@ const generateJwt = (id, email) => {
 
 class StudentController {
     async registration(req, res, next) {
-        const {username, surname, gender, birthdate, email, password, group, course, fundingType, studyForm, educationLevel} = req.body
+        const {username, surname, gender, birthdate, email, password, fundingType, studyForm, educationLevel, courseNumber,
+            facultyName, academicPerformanceId, groupNumber} = req.body
         if (!email || !password) {
             return next(ApiError.badRequest(('Некорректный email или паролЬ')))
         }
-        const candidate = await Students.findOne({where: {email}})
+
+        const candidate = await Student.findOne({where: {email}})
         if (candidate) {
             return next(ApiError.badRequest(('Пользователь с таким email уже существует!')))
         }
         const hashPassword = await bcrypt.hash(password, 5)
-        const students = await Students.create({username, surname, gender, birthdate, email, password: hashPassword, group, course, fundingType, studyForm, educationLevel})
-        const token = generateJwt(students.id, students.email)
+        const student = await Student.create({username, surname, gender, birthdate, email, password: hashPassword, fundingType, studyForm, educationLevel, courseNumber,
+            facultyName, academicPerformanceId, groupNumber})
+        const token = generateJwt(student.id, student.email)
         return res.json({token})
     }
 
     async login(req, res, next) {
         const {email, password} = req.body
-        const students = await Students.findOne({where: {email}})
-        if (!students) {
+        const student = await Student.findOne({where: {email}})
+        if (!student) {
             return next(ApiError.internal('ПОЛЬЗОВАТЕЛЬ НЕ НАЙДЕН!'))
         }
-        let comparePassword = bcrypt.compareSync(password, students.password)
+        let comparePassword = bcrypt.compareSync(password, student.password)
         if (!comparePassword) {
             return next(ApiError.internal('Указан неверный пароль!'))
         }
-        const token = generateJwt(students.id, students.email)
+        const token = generateJwt(student.id, student.email)
         return res.json({token})
     }
 
@@ -48,14 +51,14 @@ class StudentController {
     }
 
     async getAll(req, res) {
-        const students = await Students.findAll()
-        return res.json(students)
+        const student = await Student.findAll()
+        return res.json(student)
     }
 
     async getOne(req, res) {
         const{email} = req.params
-        const students = await Students.findOne({where: {email}})
-        return res.json(students)
+        const student = await Student.findOne({where: {email}})
+        return res.json(student)
     }
 
 
@@ -63,7 +66,7 @@ class StudentController {
         const { email } = req.params;
         const {newGender, newBirthdate, newGroup, newCourse, newFundingType, newStudyForm, newEducationLevel} = req.body
 
-        const student = await Students.findOne({where: {email}})
+        const student = await Student.findOne({where: {email}})
         if (!student) {
             return next(ApiError.badRequest(('Пользователя не существует!')))
         }

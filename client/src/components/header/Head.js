@@ -36,7 +36,9 @@ const Head = () => {
                     mode="horizontal"
                     style={{justifyContent: 'center'}}
                 >
-                    <MenuItem><NavLink to="/">Главная</NavLink></MenuItem>
+                    <MenuItem><NavLink to="/">Студенты</NavLink></MenuItem>
+                    <MenuItem><NavLink to="/groups">Группы</NavLink></MenuItem>
+                    <MenuItem><NavLink to="/faculties">Факультеты</NavLink></MenuItem>
                     <MenuItem style={{marginLeft: 20}}><NavLink to="/login">Вход</NavLink></MenuItem>
                     <MenuItem style={{marginLeft: 20}}><NavLink to="/registration">Регистрация</NavLink></MenuItem>
 

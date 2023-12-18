@@ -13,7 +13,6 @@ const App = observer( () => {
         <BrowserRouter>
             <Head/>
             <AppRouter/>
-            <Foot/>
         </BrowserRouter>
 
     );

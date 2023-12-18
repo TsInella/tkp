@@ -1,22 +1,22 @@
-import style from './dataPage.module.css'
+import style from './facultyPage.module.css'
 import {SearchOutlined} from '@ant-design/icons';
 import React, {useEffect, useRef, useState} from 'react';
 import Highlighter from 'react-highlight-words';
 import {Button, Input, Space, Table} from 'antd';
-import {fetchStudents} from "../../http/studentAPI";
+import {fetchFaculty, fetchStudents} from "../../http/studentAPI";
 
-const DataPage = () => {
+const FacultyPage = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
 
     const [rows, setRows] = useState([]);
     useEffect(() => {
-        const fetchAndSetStudents = async () => {
-            const rows = await fetchStudents();
+        const fetchAndSetFaculty = async () => {
+            const rows = await fetchFaculty();
             setRows(rows);
         };
-        fetchAndSetStudents();
+        fetchAndSetFaculty();
     }, []);
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -126,78 +126,23 @@ const DataPage = () => {
 
     const columns = [
         {
-            title: '',
-            dataIndex: 'key',
-            key: 'key',
-            ...getColumnSearchProps('key'),
+            title: 'Наименование',
+            dataIndex: 'name',
+            key: 'name',
+            ...getColumnSearchProps('name'),
         },
         {
-            title: 'Имя',
-            dataIndex: 'username',
-            key: 'username',
-            ...getColumnSearchProps('username'),
+            title: 'Декан',
+            dataIndex: 'dean',
+            key: 'dean',
+            ...getColumnSearchProps('dean'),
             render: (text) => <h4>{text}</h4>,
         },
         {
-            title: 'Фамилия',
-            dataIndex: 'surname',
-            key: 'surname',
-            ...getColumnSearchProps('surname'),
-            render: (text) => <h4>{text}</h4>,
-        },
-        {
-            title: 'Пол',
-            dataIndex: 'gender',
-            key: 'gender',
-            ...getColumnSearchProps('gender'),
-        },
-        {
-            title: 'Дата рождения',
-            dataIndex: 'birthdate',
-            key: 'birthdate',
-            ...getColumnSearchProps('birthdate'),
-        },
-        {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email',
-            ...getColumnSearchProps('email'),
-        },
-        {
-            title: 'Группа',
-            dataIndex: 'groupNumber',
-            key: 'group',
-            ...getColumnSearchProps('group'),
-        },
-        {
-            title: 'Курс',
-            dataIndex: 'courseNumber',
-            key: 'course',
-            ...getColumnSearchProps('course'),
-        },
-        {
-            title: 'Факультет',
-            dataIndex: 'facultyName',
-            key: 'course',
-            ...getColumnSearchProps('course'),
-        },
-        {
-            title: 'Вид финансирования',
-            dataIndex: 'fundingType',
-            key: 'fundingType',
-            ...getColumnSearchProps('fundingType'),
-        },
-        {
-            title: 'Форма обучения',
-            dataIndex: 'studyForm',
-            key: 'studyForm',
-            ...getColumnSearchProps('studyForm'),
-        },
-        {
-            title: 'Уровень образования',
-            dataIndex: 'educationLevel',
-            key: 'educationLevel',
-            ...getColumnSearchProps('educationLevel'),
+            title: 'Количество студентов',
+            dataIndex: 'studentsNumber',
+            key: 'studentsNumber',
+            ...getColumnSearchProps('studentsNumber'),
         },
 
     ];
@@ -206,7 +151,7 @@ const DataPage = () => {
         <div className={style.wrap}>
             <div>
                 <div className={style.upperRow}>
-                    <h1>Информация о студентах</h1>
+                    <h1>Информация о факультетах</h1>
                 </div>
                 <Table className = {style.table} pagination={false} columns={columns} dataSource={rows}/>
             </div>
@@ -214,4 +159,4 @@ const DataPage = () => {
     );
 };
 
-export default DataPage;
+export default FacultyPage;

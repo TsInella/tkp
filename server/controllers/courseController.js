@@ -1,8 +1,13 @@
 const ApiError = require ('../error/ApiError')
-const {Course} = require("../models/student_model");
+const {Course, Student} = require("../models/student_model");
 class CourseController {
     async create(req, res) {
         const {number} = req.body
+        const candidate = await Course.findOne({where: {number}})
+        if (candidate) {
+            return res.json(candidate);
+        }
+
         const course = await Course.create({number})
         return res.json(course)
     }

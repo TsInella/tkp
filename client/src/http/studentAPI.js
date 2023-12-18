@@ -1,7 +1,9 @@
 import {$host} from "./index";
 import { jwtDecode } from "jwt-decode";
-export const registration = async (username, surname, gender, birthdate, email, password, group, course, fundingType, studyForm, educationLevel) => {
-    const {data} = await $host.post('api/student/registration', {username, surname, gender, birthdate, email, password, group, course, fundingType, studyForm, educationLevel})
+export const registration = async (username, surname, gender, birthdate, email, password, fundingType, studyForm, educationLevel, courseNumber,
+                                   facultyName, academicPerformanceId, groupNumber) => {
+    const {data} = await $host.post('api/student/registration', {username, surname, gender, birthdate, email, password, fundingType, studyForm, educationLevel, courseNumber,
+        facultyName, academicPerformanceId, groupNumber})
     localStorage.setItem('token', data.token)
     return jwtDecode(data.token)
 }
@@ -61,8 +63,8 @@ export const fetchAcademicPerformance = async () => {
 }
 
 //course
-export const createCourse = async (number) => {
-    const {data} = await $host.post('api/course', {number})
+export const createCourse = async (courseNumber) => {
+    const {data} = await $host.post('api/course', courseNumber)
     return data
 }
 export const fetchCourse = async () => {

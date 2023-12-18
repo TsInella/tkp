@@ -1,11 +1,11 @@
-import style from './dataPage.module.css'
+import style from './coursePage.module.css'
 import {SearchOutlined} from '@ant-design/icons';
 import React, {useEffect, useRef, useState} from 'react';
 import Highlighter from 'react-highlight-words';
 import {Button, Input, Space, Table} from 'antd';
 import {fetchStudents} from "../../http/studentAPI";
 
-const DataPage = () => {
+const CoursePage = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
@@ -214,4 +214,4 @@ const DataPage = () => {
     );
 };
 
-export default DataPage;
+export default CoursePage;
