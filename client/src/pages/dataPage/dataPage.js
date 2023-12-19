@@ -3,21 +3,42 @@ import {SearchOutlined} from '@ant-design/icons';
 import React, {useEffect, useRef, useState} from 'react';
 import Highlighter from 'react-highlight-words';
 import {Button, Input, Space, Table} from 'antd';
-import {fetchStudents} from "../../http/studentAPI";
+import {fetchAcademicPerformance, fetchStudents} from "../../http/studentAPI";
 
 const DataPage = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
 
-    const [rows, setRows] = useState([]);
+    const [studentRows, setStudentRows] = useState([]);
+    const [performanceRows, setPerformanceRows] = useState([]);
+
     useEffect(() => {
         const fetchAndSetStudents = async () => {
             const rows = await fetchStudents();
-            setRows(rows);
+            setStudentRows(rows);
         };
         fetchAndSetStudents();
     }, []);
+
+    useEffect(() => {
+        const fetchAndSetAcademicPerformance = async () => {
+            const rows = await fetchAcademicPerformance();
+            setPerformanceRows(rows);
+        };
+        fetchAndSetAcademicPerformance();
+    }, []);
+
+    const totalArray = studentRows.map(obj1 => {
+        const matchingObj2 = performanceRows.find(obj2 => obj2.id === obj1.academicPerformanceId);
+        return { ...obj1, ...matchingObj2 };
+    });
+
+    console.log(totalArray);
+
+    console.log(studentRows)
+    console.log(performanceRows)
+
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
@@ -199,6 +220,18 @@ const DataPage = () => {
             key: 'educationLevel',
             ...getColumnSearchProps('educationLevel'),
         },
+        {
+            title: 'Количество курсов',
+            dataIndex: 'courseNumber',
+            key: 'courseNumber',
+            ...getColumnSearchProps('courseNumber'),
+        },
+        {
+            title: 'Средняя оценка',
+            dataIndex: 'averageMark',
+            key: 'averageMark',
+            ...getColumnSearchProps('averageMark'),
+        },
 
     ];
 
@@ -208,7 +241,7 @@ const DataPage = () => {
                 <div className={style.upperRow}>
                     <h1>Информация о студентах</h1>
                 </div>
-                <Table className = {style.table} pagination={false} columns={columns} dataSource={rows}/>
+                <Table size = "small" className = {style.table} pagination={false} columns={columns} dataSource={totalArray}/>
             </div>
         </div>
     );

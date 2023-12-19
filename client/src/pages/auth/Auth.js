@@ -104,24 +104,15 @@ const Auth = observer(() => {
                 if (isLogin) {
                     await login(email, password);
                 } else {
-                    try {
                         await createCourse({number: courseNumber});
-                    } catch (error) {
-                        console.error("Error in createCourse:", error);
-                    }
-
-                    try {
                         await createFaculty(facultyName, facultyStudentsNumber, dean);
-                    } catch (error) {
-                        console.error("Error in createFaculty:", error);
-                    }
                         const academicPerformance = await createAcademicPerformance(classesNumber, averageMark);
                         const academicPerformanceId = academicPerformance.id;
                         console.log(academicPerformanceId);
                         console.log(academicPerformance.id);
                         await createGroup(groupNumber, tutorName, groupStudentsNumber, courseNumber, facultyName);
 
-                    const fetchAndSetAcademicPerformance = async () => {
+                    const Registration = async () => {
                         try {
                             await registration(username, surname, gender, birthdate, email, password, fundingType, studyForm, educationLevel, courseNumber, facultyName, academicPerformanceId, groupNumber)
                         } catch (error) {
@@ -129,7 +120,7 @@ const Auth = observer(() => {
                         }
                     };
 
-                    fetchAndSetAcademicPerformance();
+                    Registration();
                 }
 
                 student.setEmail(email)

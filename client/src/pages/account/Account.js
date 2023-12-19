@@ -14,8 +14,8 @@ const Account = () => {
     const history = useNavigate()
     const [newGender, setNewGender] = useState('')
     const [newBirthdate, setNewBirthdate] = useState('')
-    const [newGroup, setNewGroup] = useState('')
-    const [newCourse, setNewCourse] = useState('')
+    const [newGroupNumber, setNewGroupNumber] = useState('')
+    const [newCourseNumber, setNewCourseNumber] = useState('')
     const [newFundingType, setNewFundingType] = useState('')
     const [newStudyForm, setNewStudyForm] = useState('')
     const [newEducationLevel, setNewEducationLevel] = useState('')
@@ -36,18 +36,18 @@ const Account = () => {
         if (rows) {
             setNewGender(rows.gender);
             setNewBirthdate(rows.birthdate);
-            setNewGroup(rows.group);
-            setNewCourse(rows.course);
+            setNewGroupNumber(rows.groupNumber);
+            setNewCourseNumber(rows.courseNumber);
             setNewFundingType(rows.fundingType);
             setNewStudyForm(rows.studyForm);
             setNewEducationLevel(rows.educationLevel);
         }
     }, [rows]);
 
-    console.log(newGroup)
+    console.log(newGroupNumber)
 
     const Save = async () => {
-        await updateOneStudent(email, newGender, newBirthdate, newGroup, newCourse, newFundingType, newStudyForm, newEducationLevel)
+        await updateOneStudent(email, newGender, newBirthdate, newGroupNumber, newCourseNumber, newFundingType, newStudyForm, newEducationLevel)
         alert("Успешно сохранено!");
     }
 
@@ -80,11 +80,11 @@ const Account = () => {
                 </div>
 
                 <div className={style.field}> Номер группы:
-                    <Input onChange={e => setNewGroup(e.target.value)} style={{width: 250}} defaultValue={rows.group}/>
+                    <Input onChange={e => setNewGroupNumber(e.target.value)} style={{width: 250}} defaultValue={rows.groupNumber}/>
                 </div>
 
                 <div className={style.field}> Курс:
-                    <Input onChange={e => setNewCourse(e.target.value)} style={{width: 250}} defaultValue={rows.course}/>
+                    <Input onChange={e => setNewCourseNumber(e.target.value)} style={{width: 250}} defaultValue={rows.courseNumber}/>
                 </div>
 
                 <div className={style.field}> Форма обучения:
