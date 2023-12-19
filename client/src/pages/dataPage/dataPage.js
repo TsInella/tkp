@@ -222,9 +222,9 @@ const DataPage = () => {
         },
         {
             title: 'Количество курсов',
-            dataIndex: 'courseNumber',
-            key: 'courseNumber',
-            ...getColumnSearchProps('courseNumber'),
+            dataIndex: 'classesNumber',
+            key: 'classesNumber',
+            ...getColumnSearchProps('classesNumber'),
         },
         {
             title: 'Средняя оценка',

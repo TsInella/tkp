@@ -64,7 +64,7 @@ class StudentController {
 
     async updateOne(req, res, next) {
         const { email } = req.params;
-        const {newGender, newBirthdate, newGroup, newCourse, newFundingType, newStudyForm, newEducationLevel} = req.body
+        const {newGender, newBirthdate, newGroupNumber, newCourseNumber, newFundingType, newFacultyName, newStudyForm, newEducationLevel} = req.body
 
         const student = await Student.findOne({where: {email}})
         if (!student) {
@@ -72,9 +72,10 @@ class StudentController {
         }
         student.gender = newGender
         student.birthdate = newBirthdate
-        student.group = newGroup
-        student.course = newCourse
+        student.groupNumber = newGroupNumber
+        student.courseNumber = newCourseNumber
         student.fundingType = newFundingType
+        student.facultyName = newFacultyName
         student.studyForm = newStudyForm
         student.educationLevel = newEducationLevel
         await student.save();

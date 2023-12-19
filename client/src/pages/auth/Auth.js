@@ -7,7 +7,6 @@ import {
     createCourse,
     createFaculty,
     createGroup,
-    fetchAcademicPerformance,
     fetchFaculty,
     fetchGroup,
     login,
@@ -68,24 +67,7 @@ const Auth = observer(() => {
 
         }, [groupNumber])
 
-        useEffect(() => {
-            const fetchAndSetGroupExistance = async () => {
-                const rows = await fetchGroup();
-                const result = await rows.find(group => group.number === groupNumber);
-                if (result) {
-                    setGroupExists(true)
-                    setFacultyName(result.facultyName)
-                    setCourseNumber(result.courseNumber)
-                }
 
-                else {setGroupExists(false)}
-            }
-            fetchAndSetGroupExistance()
-
-        }, [groupNumber])
-
-        console.log(facultyName)
-        console.log(courseNumber)
         useEffect(() => {
             const fetchAndSetFacultyExistance = async () => {
                 const rows = await fetchFaculty();
@@ -97,10 +79,9 @@ const Auth = observer(() => {
 
         }, [facultyName])
 
-        const click = async () => {
-            console.log(courseNumber)
-            try {
 
+        const click = async () => {
+            try {
                 if (isLogin) {
                     await login(email, password);
                 } else {
@@ -108,8 +89,6 @@ const Auth = observer(() => {
                         await createFaculty(facultyName, facultyStudentsNumber, dean);
                         const academicPerformance = await createAcademicPerformance(classesNumber, averageMark);
                         const academicPerformanceId = academicPerformance.id;
-                        console.log(academicPerformanceId);
-                        console.log(academicPerformance.id);
                         await createGroup(groupNumber, tutorName, groupStudentsNumber, courseNumber, facultyName);
 
                     const Registration = async () => {
@@ -128,7 +107,7 @@ const Auth = observer(() => {
                 student.setIsAuth(true)
                 setTimeout(() => {
                     history('/');
-                }, 2000);
+                }, 500);
             } catch
                 (e) {
                 alert(e.response.data.message)

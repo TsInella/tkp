@@ -26,9 +26,9 @@ export const fetchOneStudent = async (email) => {
     return (data)
 }
 
-export const updateOneStudent = async (email, newGender, newBirthdate, newGroup, newCourse, newFundingType, newStudyForm, newEducationLevel) => {
+export const updateOneStudent = async (email, newGender, newBirthdate, newGroupNumber, newCourseNumber, newFundingType, newFacultyName, newStudyForm, newEducationLevel) => {
     console.log("updateOneStudent")
-    const {data} = await $host.put('api/student/'+email, {newGender, newBirthdate, newGroup, newCourse, newFundingType, newStudyForm, newEducationLevel})
+    const {data} = await $host.put('api/student/'+email, {newGender, newBirthdate, newGroupNumber, newCourseNumber, newFundingType, newFacultyName, newStudyForm, newEducationLevel})
 
     return (data)
 }
