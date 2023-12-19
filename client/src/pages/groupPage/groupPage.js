@@ -2,7 +2,7 @@ import style from './groupPage.module.css'
 import {SearchOutlined} from '@ant-design/icons';
 import React, {useEffect, useRef, useState} from 'react';
 import Highlighter from 'react-highlight-words';
-import {Button, Input, Space, Table} from 'antd';
+import {Button, ConfigProvider, Input, Space, Table} from 'antd';
 import {fetchGroup, fetchStudents} from "../../http/studentAPI";
 
 const GroupPage = () => {
@@ -165,7 +165,18 @@ const GroupPage = () => {
                 <div className={style.upperRow}>
                     <h1>Информация о группах</h1>
                 </div>
+                <ConfigProvider
+                    theme={{
+                        components: {
+                            Table: {
+                                headerBg: "#d5d2e7",
+                                headerColor: "#35344b",
+                            },
+                        },
+                    }}
+                >
                 <Table className = {style.table} pagination={false} columns={columns} dataSource={rows}/>
+                </ConfigProvider>
             </div>
         </div>
     );

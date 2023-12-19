@@ -24,28 +24,28 @@ const Auth = observer(() => {
         const location = useLocation()
         const history = useNavigate()
         const isLogin = location.pathname === '/login';
-        const [email, setEmail] = useState('')
-        const [password, setPassword] = useState('')
-        const [username, setUsername] = useState('')
-        const [surname, setSurname] = useState('')
-        const [gender, setGender] = useState('')
-        const [birthdate, setBirthdate] = useState('')
-        const [fundingType, setFundingType] = useState('')
-        const [studyForm, setStudyForm] = useState('')
-        const [educationLevel, setEducationLevel] = useState('')
+        const [email, setEmail] = useState(undefined)
+        const [password, setPassword] = useState(undefined)
+        const [username, setUsername] = useState(undefined)
+        const [surname, setSurname] = useState(undefined)
+        const [gender, setGender] = useState(undefined)
+        const [birthdate, setBirthdate] = useState(undefined)
+        const [fundingType, setFundingType] = useState(undefined)
+        const [studyForm, setStudyForm] = useState(undefined)
+        const [educationLevel, setEducationLevel] = useState(undefined)
         //FK
         const [courseNumber, setCourseNumber] = useState(undefined)
-        const [facultyName, setFacultyName] = useState('')
-        const [groupNumber, setGroupNumber] = useState('')
+        const [facultyName, setFacultyName] = useState(undefined)
+        const [groupNumber, setGroupNumber] = useState(undefined)
         //group
-        const [tutorName, setTutorName] = useState('')
-        const [groupStudentsNumber, setGroupStudentsNumber] = useState('')
+        const [tutorName, setTutorName] = useState(undefined)
+        const [groupStudentsNumber, setGroupStudentsNumber] = useState(undefined)
         //faculty
-        const [facultyStudentsNumber, setFacultyStudentsNumber] = useState('')
-        const [dean, setDean] = useState('')
+        const [facultyStudentsNumber, setFacultyStudentsNumber] = useState(undefined)
+        const [dean, setDean] = useState(undefined)
         //average performance
-        const [classesNumber, setClassesNumber] = useState('')
-        const [averageMark, setAverageMark] = useState('')
+        const [classesNumber, setClassesNumber] = useState(undefined)
+        const [averageMark, setAverageMark] = useState(undefined)
 
         const [groupExists, setGroupExists] = useState(false)
         const [facultyExists, setFacultyExists] = useState(false)
@@ -59,9 +59,9 @@ const Auth = observer(() => {
                     setGroupExists(true)
                     setFacultyName(result.facultyName)
                     setCourseNumber(result.courseNumber)
+                } else {
+                    setGroupExists(false)
                 }
-
-                else {setGroupExists(false)}
             }
             fetchAndSetGroupExistance()
 
@@ -72,8 +72,11 @@ const Auth = observer(() => {
             const fetchAndSetFacultyExistance = async () => {
                 const rows = await fetchFaculty();
                 const result = rows.find(faculty => faculty.name === facultyName);
-                if (result) {setFacultyExists(true)}
-                else {setFacultyExists(false)}
+                if (result) {
+                    setFacultyExists(true)
+                } else {
+                    setFacultyExists(false)
+                }
             }
             fetchAndSetFacultyExistance()
 
@@ -81,36 +84,50 @@ const Auth = observer(() => {
 
 
         const click = async () => {
-            try {
+            {
                 if (isLogin) {
-                    await login(email, password);
+                    if ((typeof email !== "undefined") && (typeof password !== "undefined")) {
+                        await login(email, password);
+                        student.setEmail(email)
+                        student.setStudent(student)
+                        student.setIsAuth(true)
+                        setTimeout(() => {
+                            history('/');
+                        }, 500);
+                    } else {
+                        alert("Заполните все поля!");
+                    }
+
                 } else {
+                    if ((typeof username !== "undefined") && (typeof surname !== "undefined") && typeof (gender !== "undefined") && (typeof birthdate !== "undefined") && (typeof email !== "undefined") && (typeof password !== "undefined") && (typeof fundingType !== "undefined") && (typeof studyForm !== "undefined") && (typeof educationLevel !== "undefined") && (typeof courseNumber !== "undefined") && (typeof facultyName !== "undefined") && (typeof groupNumber !== "undefined") && (typeof tutorName !== "undefined") && (typeof groupStudentsNumber !== "undefined") && (typeof facultyStudentsNumber !== "undefined") && (typeof dean !== "undefined") && (typeof classesNumber !== "undefined") && (typeof averageMark !== "undefined"))
+                    {
                         await createCourse({number: courseNumber});
                         await createFaculty(facultyName, facultyStudentsNumber, dean);
                         const academicPerformance = await createAcademicPerformance(classesNumber, averageMark);
                         const academicPerformanceId = academicPerformance.id;
                         await createGroup(groupNumber, tutorName, groupStudentsNumber, courseNumber, facultyName);
 
-                    const Registration = async () => {
-                        try {
-                            await registration(username, surname, gender, birthdate, email, password, fundingType, studyForm, educationLevel, courseNumber, facultyName, academicPerformanceId, groupNumber)
-                        } catch (error) {
-                            console.error(error);
-                        }
-                    };
+                        const Registration = async () => {
+                            try {
+                                await registration(username, surname, gender, birthdate, email, password, fundingType, studyForm, educationLevel, courseNumber, facultyName, academicPerformanceId, groupNumber)
+                            } catch (error) {
+                                console.error(error);
+                            }
+                        };
 
-                    Registration();
+                        Registration();
+                        
+                        student.setEmail(email)
+                        student.setStudent(student)
+                        student.setIsAuth(true)
+                        setTimeout(() => {
+                            history('/');
+                        }, 500);
+                    } else
+                    {
+                        alert("Заполните все поля!");
+                    }
                 }
-
-                student.setEmail(email)
-                student.setStudent(student)
-                student.setIsAuth(true)
-                setTimeout(() => {
-                    history('/');
-                }, 500);
-            } catch
-                (e) {
-                alert(e.response.data.message)
             }
         }
         const onFinish = (values) => {
@@ -121,7 +138,7 @@ const Auth = observer(() => {
                 {
                     isLogin ?
 
-                        <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100vh"}}>
+                        <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "90vh"}}>
                             <Form
                                 name="login"
                                 initialValues={{remember: true}}
@@ -151,7 +168,7 @@ const Auth = observer(() => {
                                 </Form.Item>
                             </Form>
                         </div> :
-                        <div style={{display: "flex", justifyContent: "center", height: "100vh"}}>
+                        <div style={{display: "flex", justifyContent: "center", marginBottom: 50, marginTop: 50}}>
                             <Form
                                 name="registration"
                                 initialValues={{remember: true}}

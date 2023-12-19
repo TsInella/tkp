@@ -2,9 +2,9 @@ import style from './dataPage.module.css'
 import {SearchOutlined} from '@ant-design/icons';
 import React, {useEffect, useRef, useState} from 'react';
 import Highlighter from 'react-highlight-words';
-import {Button, Input, Space, Table} from 'antd';
+import {Button, ConfigProvider, Input, Space, Table} from 'antd';
 import {fetchAcademicPerformance, fetchStudents} from "../../http/studentAPI";
-
+import Magnifier from "../../assets/Magnifier.png"
 const DataPage = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
@@ -117,7 +117,7 @@ const DataPage = () => {
         filterIcon: (filtered) => (
             <SearchOutlined
                 style={{
-                    color: filtered ? '#1677ff' : undefined,
+                    color: filtered ? '#5016ff' : undefined,
                 }}
             />
         ),
@@ -133,7 +133,7 @@ const DataPage = () => {
             searchedColumn === dataIndex ? (
                 <Highlighter
                     highlightStyle={{
-                        backgroundColor: '#abdbff',
+                        backgroundColor: '#b7b3ee',
                         padding: 0,
                     }}
                     searchWords={[searchText]}
@@ -237,11 +237,23 @@ const DataPage = () => {
 
     return (
         <div className={style.wrap}>
-            <div>
+            <div style={{display: "flex", flexWrap: "wrap"}}>
                 <div className={style.upperRow}>
                     <h1>Информация о студентах</h1>
                 </div>
+                <img style={{marginLeft: 400, height: 240, objectFit: "contain"}} src={Magnifier}/>
+                <ConfigProvider
+                    theme={{
+                        components: {
+                            Table: {
+                                headerBg: "#d5d2e7",
+                                headerColor: "#35344b",
+                            },
+                        },
+                    }}
+                >
                 <Table size = "small" className = {style.table} pagination={false} columns={columns} dataSource={totalArray}/>
+                </ConfigProvider>
             </div>
         </div>
     );

@@ -4,7 +4,7 @@
     align-items: center;
     padding: 15vh 0 25vh 0;
     height: 70vh;
-    background-image: url("../../assets/forest.png");
+    background-color: #3a3541;
 }
 
 .card {
@@ -19,7 +19,7 @@
     margin: 50px;
     font-family: 'Mulish', sans-serif;
     font-size: 3rem;
-    color: #5f7069;
+    color: #615f70;
 }
 
 .field {
