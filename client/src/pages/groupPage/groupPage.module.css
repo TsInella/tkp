@@ -14,11 +14,11 @@ body {
 .wrap {
     display: flex;
     justify-content: center;
-    height: 100vh;
     width: 100%;
-    background-image: url("../../assets/forest.png");
+    background-color: ghostwhite;
 }
 .table {
     width: 90vw;
     box-shadow: 0 0 30px rgba(67, 70, 64, 0.31);
+    margin-bottom: 100px
 }
