@@ -29,7 +29,7 @@ const AcademicPerformance = sequelize.define('academicPerformance', {
 // Изменение модели студента для связи с курсами и группами
 const Student = sequelize.define('student', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    username: { type: DataTypes.STRING, unique: true, allowNull: false },
+    username: { type: DataTypes.STRING, allowNull: false },
     surname: { type: DataTypes.STRING, allowNull: false },
     gender: { type: DataTypes.STRING, allowNull: false },
     birthdate: { type: DataTypes.STRING, allowNull: false },

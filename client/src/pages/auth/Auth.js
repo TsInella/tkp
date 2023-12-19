@@ -35,7 +35,7 @@ const Auth = observer(() => {
         const [studyForm, setStudyForm] = useState('')
         const [educationLevel, setEducationLevel] = useState('')
         //FK
-        const [courseNumber, setCourseNumber] = useState('')
+        const [courseNumber, setCourseNumber] = useState(undefined)
         const [facultyName, setFacultyName] = useState('')
         const [groupNumber, setGroupNumber] = useState('')
         //group
@@ -45,7 +45,6 @@ const Auth = observer(() => {
         const [facultyStudentsNumber, setFacultyStudentsNumber] = useState('')
         const [dean, setDean] = useState('')
         //average performance
-        const [academicPerformanceId, setAcademicPerformanceId] = useState('')
         const [classesNumber, setClassesNumber] = useState('')
         const [averageMark, setAverageMark] = useState('')
 
@@ -56,14 +55,37 @@ const Auth = observer(() => {
         useEffect(() => {
             const fetchAndSetGroupExistance = async () => {
                 const rows = await fetchGroup();
-                const result = rows.find(group => group.number === groupNumber);
-                if (result) {setGroupExists(true)}
+                const result = await rows.find(group => group.number === groupNumber);
+                if (result) {
+                    setGroupExists(true)
+                    setFacultyName(result.facultyName)
+                    setCourseNumber(result.courseNumber)
+                }
+
                 else {setGroupExists(false)}
             }
             fetchAndSetGroupExistance()
 
         }, [groupNumber])
 
+        useEffect(() => {
+            const fetchAndSetGroupExistance = async () => {
+                const rows = await fetchGroup();
+                const result = await rows.find(group => group.number === groupNumber);
+                if (result) {
+                    setGroupExists(true)
+                    setFacultyName(result.facultyName)
+                    setCourseNumber(result.courseNumber)
+                }
+
+                else {setGroupExists(false)}
+            }
+            fetchAndSetGroupExistance()
+
+        }, [groupNumber])
+
+        console.log(facultyName)
+        console.log(courseNumber)
         useEffect(() => {
             const fetchAndSetFacultyExistance = async () => {
                 const rows = await fetchFaculty();
@@ -93,35 +115,29 @@ const Auth = observer(() => {
                     } catch (error) {
                         console.error("Error in createFaculty:", error);
                     }
-
-                    try {
-                        await createAcademicPerformance(classesNumber, averageMark);
-                    } catch (error) {
-                        console.error("Error in createAcademicPerformance:", error);
-                    }
-
-                    try {
+                        const academicPerformance = await createAcademicPerformance(classesNumber, averageMark);
+                        const academicPerformanceId = academicPerformance.id;
+                        console.log(academicPerformanceId);
+                        console.log(academicPerformance.id);
                         await createGroup(groupNumber, tutorName, groupStudentsNumber, courseNumber, facultyName);
-                    } catch (error) {
-                        console.error("Error in createGroup:", error);
-                    }
 
                     const fetchAndSetAcademicPerformance = async () => {
-                        let academicPerformance = await fetchAcademicPerformance()
-                        console.log(academicPerformance.length)
-                        setAcademicPerformanceId(academicPerformance.length+1)
-                        console.log(academicPerformanceId)
-                        await registration(username, surname, gender, birthdate, email, password, fundingType, studyForm, educationLevel, courseNumber, facultyName, academicPerformanceId, groupNumber);
-                    }
-                    fetchAndSetAcademicPerformance()
+                        try {
+                            await registration(username, surname, gender, birthdate, email, password, fundingType, studyForm, educationLevel, courseNumber, facultyName, academicPerformanceId, groupNumber)
+                        } catch (error) {
+                            console.error(error);
+                        }
+                    };
 
-
+                    fetchAndSetAcademicPerformance();
                 }
 
                 student.setEmail(email)
                 student.setStudent(student)
                 student.setIsAuth(true)
-                history('/')
+                setTimeout(() => {
+                    history('/');
+                }, 2000);
             } catch
                 (e) {
                 alert(e.response.data.message)
@@ -234,62 +250,63 @@ const Auth = observer(() => {
                                     <Input placeholder="Номер группы"/>
                                 </Form.Item>
                                 {!groupExists &&
-                                <Form.Item
-                                    name="tutorName"
-                                    value={tutorName}
-                                    onChange={e => setTutorName(e.target.value)}
-                                    rules={[{required: true, message: "Пожалуйста, введите имя вашего куратора!"}]}
-                                >
-                                    <Input placeholder="Имя куратора"/>
-                                </Form.Item>}
+                                    <Form.Item
+                                        name="tutorName"
+                                        value={tutorName}
+                                        onChange={e => setTutorName(e.target.value)}
+                                        rules={[{required: true, message: "Пожалуйста, введите имя вашего куратора!"}]}
+                                    >
+                                        <Input placeholder="Имя куратора"/>
+                                    </Form.Item>}
                                 {!groupExists &&
-                                <Form.Item
-                                    name="groupStudentsNumber"
-                                    value={groupStudentsNumber}
-                                    onChange={e => setGroupStudentsNumber(e.target.value)}
-                                    rules={[{required: true, message: "Сколько студентов в вашей группе?"}]}
-                                >
-                                    <Input placeholder="Количество студентов в группе"/>
-                                </Form.Item>
+                                    <Form.Item
+                                        name="groupStudentsNumber"
+                                        value={groupStudentsNumber}
+                                        onChange={e => setGroupStudentsNumber(e.target.value)}
+                                        rules={[{required: true, message: "Сколько студентов в вашей группе?"}]}
+                                    >
+                                        <Input placeholder="Количество студентов в группе"/>
+                                    </Form.Item>
                                 }
-                                <Form.Item
-                                    name="course"
-                                    value={courseNumber}
-                                    onChange={e => setCourseNumber(e.target.value)}
-                                    rules={[{required: true, message: "Пожалуйста, введите ваш курс!"}]}
-                                >
-                                    <Input placeholder="Курс"/>
-                                </Form.Item>
-
-
-                                <Form.Item
-                                    name="faculty"
-                                    value={facultyName}
-                                    onChange={e => setFacultyName(e.target.value)}
-                                    rules={[{required: true, message: "Пожалуйста, введите ваш факультет!"}]}
-                                >
-                                    <Input placeholder="Факультет"/>
-                                </Form.Item>
-
-                                {!facultyExists &&
-                                <Form.Item
-                                    name="dean"
-                                    value={dean}
-                                    onChange={e => setDean(e.target.value)}
-                                    rules={[{required: true, message: "Пожалуйста, введите декана!"}]}
-                                >
-                                    <Input placeholder="Декан"/>
-                                </Form.Item>
+                                {!groupExists &&
+                                    <Form.Item
+                                        name="course"
+                                        value={courseNumber}
+                                        onChange={e => setCourseNumber(e.target.value)}
+                                        rules={[{required: true, message: "Пожалуйста, введите ваш курс!"}]}
+                                    >
+                                        <Input placeholder="Курс"/>
+                                    </Form.Item>
                                 }
-                                {!facultyExists &&
-                                <Form.Item
-                                    name="facultyStudentsNumber"
-                                    value={facultyStudentsNumber}
-                                    onChange={e => setFacultyStudentsNumber(e.target.value)}
-                                    rules={[{required: true, message: "Сколько студентов на вашем факультете?"}]}
-                                >
-                                    <Input placeholder="Количество студентов на факультете"/>
-                                </Form.Item>
+                                {!groupExists &&
+                                    <Form.Item
+                                        name="faculty"
+                                        value={facultyName || ""}
+                                        onChange={e => setFacultyName(e.target.value)}
+                                        rules={[{required: true, message: "Пожалуйста, введите ваш факультет!"}]}
+                                    >
+                                        <Input placeholder="Факультет"/>
+                                    </Form.Item>
+                                }
+                                {!groupExists && !facultyExists &&
+                                    <Form.Item
+                                        name="dean"
+                                        value={dean || ""}
+                                        onChange={e => setDean(e.target.value)}
+                                        rules={[{required: true, message: "Пожалуйста, введите декана!"}]}
+                                    >
+                                        <Input placeholder="Декан"/>
+                                    </Form.Item>
+                                }
+                                {!groupExists && !facultyExists &&
+                                    <Form.Item
+                                        name="facultyStudentsNumber"
+                                        value={facultyStudentsNumber || ""}
+                                        onChange={e => setFacultyStudentsNumber(e.target.value)}
+                                        rules={[{required: true, message: "Сколько студентов на вашем факультете?"}]}
+                                    >
+                                        <Input placeholder="Количество студентов на факультете"/>
+                                    </Form.Item>
                                 }
                                 <Form.Item
                                     name="classesNumber"

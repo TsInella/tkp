@@ -21,6 +21,8 @@ const Head = () => {
                     style={{justifyContent: 'center'}}
                 >
                     <MenuItem><NavLink to="/">Главная</NavLink></MenuItem>
+                    <MenuItem><NavLink to="/groups">Группы</NavLink></MenuItem>
+                    <MenuItem><NavLink to="/faculties">Факультеты</NavLink></MenuItem>
                     <MenuItem style={{position: "absolute", right: 10}}>
                         <NavLink to="/account">
                         <Button type="primary" htmlType="submit"
