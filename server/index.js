@@ -6,9 +6,34 @@ const router = require('./routes/index')
 const errorHandler = require('./middleware/errorHandlingMiddleware')
 const path = require('path')
 
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
 const PORT = process.env.PORT || 5000;
 
 const app = express();
+
+const swaggerOptions = {
+    definition: {
+      openapi: '3.0.0', // Указываете используемую версию OpenAPI
+      info: {
+        title: 'My Express API', // Заголовок API
+        version: '1.0.0', // Версия API
+        description: 'TKP', // Краткое описание
+      },
+      servers: [
+        {
+          url: 'http://localhost:5000', // URL, на котором запущен ваш сервер
+          description: 'Development server', // Описание сервера
+        },
+      ],
+    },
+    apis: ['server/routes/*.js'], // Пути к вашим файлам с маршрутами
+  };
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.resolve(__dirname, 'static')));
@@ -30,6 +55,7 @@ const start = async () => {
         console.log(e)
     }
 }
+
 start()
 
 

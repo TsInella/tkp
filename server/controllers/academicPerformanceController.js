@@ -1,6 +1,8 @@
 const ApiError = require ('../error/ApiError')
 const {AcademicPerformance} = require("../models/student_model");
 class AcademicPerformanceController {
+
+    
     async create(req, res) {
         const {classesNumber, averageMark} = req.body
         const academicPerformance = await AcademicPerformance.create({classesNumber, averageMark})
