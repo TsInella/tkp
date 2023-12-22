@@ -66,6 +66,10 @@ class StudentController {
         const { email } = req.params;
         const {newGender, newBirthdate, newGroupNumber, newCourseNumber, newFundingType, newFacultyName, newStudyForm, newEducationLevel} = req.body
 
+        if (req.user.email !== email) {
+            return res.status(403).json({ message: 'Нет прав для изменения данных этого пользователя' });
+        }
+        
         const student = await Student.findOne({where: {email}})
         if (!student) {
             return next(ApiError.badRequest(('Пользователя не существует!')))

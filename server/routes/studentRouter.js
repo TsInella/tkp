@@ -2,6 +2,8 @@ const Router = require('express')
 const router = new Router()
 const studentController = require('../controllers/studentController')
 const authMiddleware = require('../middleware/authMiddleware')
+const checkJwtMiddleware = require('../middleware/checkJwtMiddleware')
+
 
 /**
  * @swagger
@@ -138,7 +140,7 @@ router.post('/login', studentController.login)
  *       401:
  *         description: Недействительный или истекший токен
  */
-router.get('/auth', authMiddleware, studentController.check)
+router.get('/auth', authMiddleware, studentController.check) //not used on client now
 
 /**
  * @swagger
@@ -228,17 +230,19 @@ router.get('/:email', studentController.getOne)
 
 /**
  * @swagger
- * /api/student/{email}:
+ * /student/{email}:
  *   put:
- *     summary: Обновляет информацию о студенте
- *     tags: [Student]
+ *     summary: Updates the details of an existing student.
+ *     description: This endpoint allows for updating the details of a student based on their email. It can only be accessed by the student themselves.
+ *     tags:
+ *       - Student
  *     parameters:
  *       - in: path
  *         name: email
  *         required: true
  *         schema:
  *           type: string
- *         description: Электронная почта студента
+ *         description: The email of the student to update.
  *     requestBody:
  *       required: true
  *       content:
@@ -248,32 +252,32 @@ router.get('/:email', studentController.getOne)
  *             properties:
  *               newGender:
  *                 type: string
- *                 description: Новый пол студента
+ *                 description: The new gender of the student.
  *               newBirthdate:
  *                 type: string
  *                 format: date
- *                 description: Новая дата рождения студента
+ *                 description: The new birthdate of the student.
  *               newGroupNumber:
  *                 type: integer
- *                 description: Новый номер группы студента
+ *                 description: The new group number of the student.
  *               newCourseNumber:
  *                 type: integer
- *                 description: Новый номер курса студента
+ *                 description: The new course number of the student.
  *               newFundingType:
  *                 type: string
- *                 description: Новый тип финансирования студента
+ *                 description: The new funding type of the student.
  *               newFacultyName:
  *                 type: string
- *                 description: Новое название факультета студента
+ *                 description: The new faculty name of the student.
  *               newStudyForm:
  *                 type: string
- *                 description: Новая форма обучения студента
+ *                 description: The new study form of the student.
  *               newEducationLevel:
  *                 type: string
- *                 description: Новый уровень образования студента
+ *                 description: The new education level of the student.
  *     responses:
  *       200:
- *         description: Информация о студенте успешно обновлена
+ *         description: The student's details were successfully updated.
  *         content:
  *           application/json:
  *             schema:
@@ -281,9 +285,21 @@ router.get('/:email', studentController.getOne)
  *               properties:
  *                 message:
  *                   type: string
+ *                   example: Данные успешно обновлены!
+ *       403:
+ *         description: Access denied. User is not authorized to update this student's details.
  *       400:
- *         description: Пользователь не найден или данные некорректны
+ *         description: Bad request. The user does not exist.
+ *     security:
+ *       - bearerAuth: []
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ *       description: JWT Authorization header using the Bearer scheme. Example: "Authorization: Bearer {token}"
  */
-router.put('/:email', studentController.updateOne);
+router.put('/:email', checkJwtMiddleware, studentController.updateOne);
 
 module.exports = router
