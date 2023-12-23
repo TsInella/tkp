@@ -27,12 +27,26 @@ const swaggerOptions = {
           description: 'Development server', // Описание сервера
         },
       ],
+      components: {
+        securitySchemes: {
+            Authorization: {
+                type: "http",
+                scheme: "bearer",
+                bearerFormat: "JWT",
+                value: "<JWT token here>"
+            }
+        }
+    }
     },
     apis: ['server/routes/*.js'], // Пути к вашим файлам с маршрутами
   };
 
+const swaggerUiOptions = {
+  explorer: true
+};
+
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, swaggerUiOptions));
 
 app.use(cors());
 app.use(express.json());

@@ -59,6 +59,8 @@ const Auth = observer(() => {
                     setGroupExists(true)
                     setFacultyName(result.facultyName)
                     setCourseNumber(result.courseNumber)
+                    setGroupStudentsNumber(result.studentsNumber)
+                    setTutorName(result.tutorName)
                 } else {
                     setGroupExists(false)
                 }
@@ -67,13 +69,14 @@ const Auth = observer(() => {
 
         }, [groupNumber])
 
-
         useEffect(() => {
             const fetchAndSetFacultyExistance = async () => {
                 const rows = await fetchFaculty();
                 const result = rows.find(faculty => faculty.name === facultyName);
                 if (result) {
                     setFacultyExists(true)
+                    setDean(result.dean)
+                    setFacultyStudentsNumber(result.studentsNumber)
                 } else {
                     setFacultyExists(false)
                 }
@@ -81,7 +84,6 @@ const Auth = observer(() => {
             fetchAndSetFacultyExistance()
 
         }, [facultyName])
-
 
         const click = async () => {
             {

@@ -27,10 +27,25 @@ export const fetchOneStudent = async (email) => {
 }
 
 export const updateOneStudent = async (email, newGender, newBirthdate, newGroupNumber, newCourseNumber, newFundingType, newFacultyName, newStudyForm, newEducationLevel) => {
-    console.log("updateOneStudent")
-    const {data} = await $host.put('api/student/'+email, {newGender, newBirthdate, newGroupNumber, newCourseNumber, newFundingType, newFacultyName, newStudyForm, newEducationLevel})
+    console.log("updateOneStudent");
 
-    return (data)
+    // Получение токена из localStorage
+    const token = localStorage.getItem('token');
+
+    // Проверка наличия токена
+    if (!token) {
+        console.error("No token found");
+        return;
+    }
+
+    // Отправка запроса с заголовком аутентификации
+    const {data} = await $host.put('api/student/'+email, {newGender, newBirthdate, newGroupNumber, newCourseNumber, newFundingType, newFacultyName, newStudyForm, newEducationLevel}, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+
+    return data;
 }
 //group
 export const createGroup = async (number, tutorName, studentsNumber, courseNumber, facultyName ) => {

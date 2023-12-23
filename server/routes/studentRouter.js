@@ -144,7 +144,7 @@ router.get('/auth', authMiddleware, studentController.check) //not used on clien
 
 /**
  * @swagger
- * /api/students:
+ * /api/student:
  *   get:
  *     summary: Возвращает список всех студентов
  *     tags: [Student]
@@ -230,14 +230,16 @@ router.get('/:email', studentController.getOne)
 
 /**
  * @swagger
- * /student/{email}:
+ * /api/student/{email}:
  *   put:
+ *     security:
+ *       - Authorization: []
  *     summary: Updates the details of an existing student.
  *     description: This endpoint allows for updating the details of a student based on their email. It can only be accessed by the student themselves.
  *     tags:
  *       - Student
  *     parameters:
- *       - in: path
+ *       - in: path 
  *         name: email
  *         required: true
  *         schema:
@@ -258,7 +260,7 @@ router.get('/:email', studentController.getOne)
  *                 format: date
  *                 description: The new birthdate of the student.
  *               newGroupNumber:
- *                 type: integer
+ *                 type: string
  *                 description: The new group number of the student.
  *               newCourseNumber:
  *                 type: integer
@@ -290,15 +292,6 @@ router.get('/:email', studentController.getOne)
  *         description: Access denied. User is not authorized to update this student's details.
  *       400:
  *         description: Bad request. The user does not exist.
- *     security:
- *       - bearerAuth: []
- * components:
- *   securitySchemes:
- *     bearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
- *       description: JWT Authorization header using the Bearer scheme. Example: "Authorization: Bearer {token}"
  */
 router.put('/:email', checkJwtMiddleware, studentController.updateOne);
 
