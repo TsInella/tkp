@@ -1,0 +1,20 @@
+.field {
+    font-family: 'Mulish', sans-serif;
+    font-size: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 30vw;
+    margin: 0 40px 10px 50px;
+}
+
+.textField {
+    width: 280px;
+    text-align: right;
+    background-color: #e8f0fe;
+    height: 25px;
+    border-radius: 5px;
+    padding: 5px 20px 0 0;
+    margin: 10px 0 25px 0;
+}

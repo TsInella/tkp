@@ -14,6 +14,7 @@ import {
 } from "../../http/studentAPI";
 import {Context} from "../../index";
 import dayjs from "dayjs";
+import style from "./Auth.module.css";
 
 dayjs('2019-01-25').format('DD/MM/YYYY')
 const {Title} = Typography;
@@ -50,12 +51,16 @@ const Auth = observer(() => {
         const [groupExists, setGroupExists] = useState(false)
         const [facultyExists, setFacultyExists] = useState(false)
 
+        const [group, setGroup] = useState(undefined)
+        const [faculty, setFaculty] = useState(undefined)
+
 
         useEffect(() => {
             const fetchAndSetGroupExistance = async () => {
                 const rows = await fetchGroup();
                 const result = await rows.find(group => group.number === groupNumber);
                 if (result) {
+                    setGroup(result)
                     setGroupExists(true)
                     setFacultyName(result.facultyName)
                     setCourseNumber(result.courseNumber)
@@ -63,6 +68,10 @@ const Auth = observer(() => {
                     setTutorName(result.tutorName)
                 } else {
                     setGroupExists(false)
+                    setFacultyName(undefined)
+                    setCourseNumber(undefined)
+                    setGroupStudentsNumber(undefined)
+                    setTutorName(undefined)
                 }
             }
             fetchAndSetGroupExistance()
@@ -74,11 +83,14 @@ const Auth = observer(() => {
                 const rows = await fetchFaculty();
                 const result = rows.find(faculty => faculty.name === facultyName);
                 if (result) {
+                    setFaculty(result)
                     setFacultyExists(true)
                     setDean(result.dean)
                     setFacultyStudentsNumber(result.studentsNumber)
                 } else {
                     setFacultyExists(false)
+                    setDean(undefined)
+                    setFacultyStudentsNumber(undefined)
                 }
             }
             fetchAndSetFacultyExistance()
@@ -238,16 +250,22 @@ const Auth = observer(() => {
                                 >
                                     <Input placeholder="Номер группы"/>
                                 </Form.Item>
-                                {!groupExists &&
+                                {!groupExists ?
                                     <Form.Item
                                         name="tutorName"
                                         value={tutorName}
                                         onChange={e => setTutorName(e.target.value)}
                                         rules={[{required: true, message: "Пожалуйста, введите имя вашего куратора!"}]}
                                     >
-                                        <Input placeholder="Имя куратора"/>
-                                    </Form.Item>}
-                                {!groupExists &&
+                                        <Input placeholder="Имя вашего куратора"/>
+                                    </Form.Item>
+                                    :
+                                    <div>
+                                        <div> Куратор:</div>
+                                        <div className={style.textField}>{tutorName}</div>
+                                    </div>
+                                }
+                                {!groupExists ?
                                     <Form.Item
                                         name="groupStudentsNumber"
                                         value={groupStudentsNumber}
@@ -256,8 +274,13 @@ const Auth = observer(() => {
                                     >
                                         <Input placeholder="Количество студентов в группе"/>
                                     </Form.Item>
+                                    :
+                                    <div>
+                                        <div> Количество студентов в группе: </div>
+                                        <div className={style.textField}>{groupStudentsNumber}</div>
+                                    </div>
                                 }
-                                {!groupExists &&
+                                {!groupExists ?
                                     <Form.Item
                                         name="course"
                                         value={courseNumber}
@@ -266,8 +289,14 @@ const Auth = observer(() => {
                                     >
                                         <Input placeholder="Курс"/>
                                     </Form.Item>
+                                    :
+                                    <div>
+                                        <div> Курс: </div>
+                                        <div className={style.textField}>{courseNumber}</div>
+                                    </div>
+
                                 }
-                                {!groupExists &&
+                                {!groupExists ?
                                     <Form.Item
                                         name="faculty"
                                         value={facultyName || ""}
@@ -276,8 +305,13 @@ const Auth = observer(() => {
                                     >
                                         <Input placeholder="Факультет"/>
                                     </Form.Item>
+                                    :
+                                    <div>
+                                        <div> Факультет: </div>
+                                        <div className={style.textField}>{facultyName}</div>
+                                    </div>
                                 }
-                                {!groupExists && !facultyExists &&
+                                {!groupExists && !facultyExists ?
                                     <Form.Item
                                         name="dean"
                                         value={dean || ""}
@@ -286,8 +320,13 @@ const Auth = observer(() => {
                                     >
                                         <Input placeholder="Декан"/>
                                     </Form.Item>
+                                    :
+                                    <div>
+                                        <div> Декан: </div>
+                                        <div className={style.textField}>{dean}</div>
+                                    </div>
                                 }
-                                {!groupExists && !facultyExists &&
+                                {!groupExists && !facultyExists ?
                                     <Form.Item
                                         name="facultyStudentsNumber"
                                         value={facultyStudentsNumber || ""}
@@ -296,6 +335,11 @@ const Auth = observer(() => {
                                     >
                                         <Input placeholder="Количество студентов на факультете"/>
                                     </Form.Item>
+                                    :
+                                    <div>
+                                        <div> Количество студентов на факультете: </div>
+                                        <div className={style.textField}>{facultyStudentsNumber}</div>
+                                    </div>
                                 }
                                 <Form.Item
                                     name="classesNumber"

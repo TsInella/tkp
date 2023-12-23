@@ -158,10 +158,10 @@ const Account = () => {
                     </div>
                 }
                 {!groupExists ?
-                    <div className={style.field}> Количество студентов в группе:
+                    <div className={style.field}> Количество студентов <br/> в группе:
                         <Input style={{width: 250}} defaultValue={""} onChange={e => setNewGroupStudentsNumber(e.target.value)} placeholder="Количество студентов в группе"/>
                     </div> :
-                    <div className={style.field}> Количество студентов в группе:
+                    <div className={style.field}> Количество студентов <br/> в группе:
                         <div style={{width: 250, textAlign: "right"}}>{group.studentsNumber}</div>
                     </div>
                 }
