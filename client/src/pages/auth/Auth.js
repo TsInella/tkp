@@ -117,11 +117,11 @@ const Auth = observer(() => {
             console.log("Received values:", values);
         };
         return (
-            <div>
+            <div style={{marginBottom: 100}}>
                 {
                     isLogin ?
 
-                        <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100vh"}}>
+                        <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", marginBottom: 100}}>
                             <Form
                                 name="login"
                                 initialValues={{remember: true}}
@@ -151,7 +151,7 @@ const Auth = observer(() => {
                                 </Form.Item>
                             </Form>
                         </div> :
-                        <div style={{display: "flex", justifyContent: "center", height: "100vh"}}>
+                        <div style={{display: "flex", justifyContent: "center", height: "100vh", paddingBottom: 100}}>
                             <Form
                                 name="registration"
                                 initialValues={{remember: true}}

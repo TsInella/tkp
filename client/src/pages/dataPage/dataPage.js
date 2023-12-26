@@ -36,9 +36,6 @@ const DataPage = () => {
 
     console.log(totalArray);
 
-    console.log(studentRows)
-    console.log(performanceRows)
-
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
@@ -59,7 +56,7 @@ const DataPage = () => {
             >
                 <Input
                     ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
+                    placeholder={`Искать ${dataIndex}`}
                     value={selectedKeys[0]}
                     onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -78,7 +75,7 @@ const DataPage = () => {
                             width: 90,
                         }}
                     >
-                        Search
+                        Искать
                     </Button>
                     <Button
                         onClick={() => clearFilters && handleReset(clearFilters)}
@@ -87,7 +84,7 @@ const DataPage = () => {
                             width: 90,
                         }}
                     >
-                        Reset
+                        Сбросить
                     </Button>
                     <Button
                         type="link"
@@ -100,7 +97,7 @@ const DataPage = () => {
                             setSearchedColumn(dataIndex);
                         }}
                     >
-                        Filter
+                        Фильтровать
                     </Button>
                     <Button
                         type="link"
@@ -109,7 +106,7 @@ const DataPage = () => {
                             close();
                         }}
                     >
-                        close
+                        Закрыть
                     </Button>
                 </Space>
             </div>
@@ -187,20 +184,20 @@ const DataPage = () => {
         {
             title: 'Группа',
             dataIndex: 'groupNumber',
-            key: 'group',
-            ...getColumnSearchProps('group'),
+            key: 'groupNumber',
+            ...getColumnSearchProps('groupNumber'),
         },
         {
             title: 'Курс',
             dataIndex: 'courseNumber',
-            key: 'course',
-            ...getColumnSearchProps('course'),
+            key: 'courseNumber',
+            ...getColumnSearchProps('courseNumber'),
         },
         {
             title: 'Факультет',
             dataIndex: 'facultyName',
-            key: 'course',
-            ...getColumnSearchProps('course'),
+            key: 'facultyName',
+            ...getColumnSearchProps('facultyName'),
         },
         {
             title: 'Вид финансирования',
