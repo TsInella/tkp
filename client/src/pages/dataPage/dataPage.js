@@ -187,8 +187,8 @@ const DataPage = () => {
         {
             title: 'Группа',
             dataIndex: 'groupNumber',
-            key: 'group',
-            ...getColumnSearchProps('group'),
+            key: 'groupNumber',
+            ...getColumnSearchProps('groupNumber'),
         },
         {
             title: 'Курс',
@@ -199,8 +199,8 @@ const DataPage = () => {
         {
             title: 'Факультет',
             dataIndex: 'facultyName',
-            key: 'course',
-            ...getColumnSearchProps('course'),
+            key: 'facultyName',
+            ...getColumnSearchProps('facultyName'),
         },
         {
             title: 'Вид финансирования',
